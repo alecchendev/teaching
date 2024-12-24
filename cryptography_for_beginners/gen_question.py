@@ -15,24 +15,43 @@ class Question:
         self.choices = choices
 
     def __str__(self):
-        choices_str = "\n".join([f"{choice.choice}" for choice in self.choices])
+        choices_str = "\n".join([f"- [ ] {choice.choice}" for choice in self.choices])
         correct_choice = [choice.choice for choice in self.choices if choice.correct][0]
         return f"{self.question}\n\n{choices_str}\n\nCorrect: {correct_choice}"
+
+
+def random_numbers(center: int, count: int, skewed: bool) -> List[int]:
+    skew = random.random() * 2 if skewed else 1
+    nums = set()
+    while len(nums) < 3:
+        offset = random.random() - 1
+        num = int(center * skew + center * offset)
+        if num < 0 or num == center:
+            continue
+        nums.add(num)
+    assert len(nums) == 3
+    return list(nums)
+
 
 def binary_to_decimal() -> Question:
     number = random.randint(10, 32)
     binary = bin(number)[2:]
     question = f"What is ${binary}_2$ in decimal (base 10)?"
 
-    skew = random.random() * 2
-    wrong_choices = []
-    while len(wrong_choices) < 3:
-        offset = random.random() - 1
-        choice_number = int(number * skew + offset * number)
-        if choice_number < 0 or choice_number == number or choice_number in [choice for choice in wrong_choices]:
-            continue
-        wrong_choices.append(choice_number)
-    choices = [Choice(str(number), True)] + [Choice(str(choice), False) for choice in wrong_choices]
+    choice_nums = random_numbers(number, 3, True)
+    choices = [Choice(str(choice), False) for choice in choice_nums]
+    choices.append(Choice(str(number), True))
+    random.shuffle(choices)
+
+    return Question(question, choices)
+
+def decimal_to_binary() -> Question:
+    number = random.randint(10, 64)
+    question = f"What is ${number}_{{10}}$ in binary (base 2)?"
+
+    choice_nums = random_numbers(number, 3, True)
+    choices = [Choice(bin(choice)[2:], False) for choice in choice_nums]
+    choices.append(Choice(bin(number)[2:], True))
     random.shuffle(choices)
 
     return Question(question, choices)
@@ -46,6 +65,7 @@ def main():
 
     commands = {
         "bin_to_dec": binary_to_decimal(),
+        "dec_to_bin": decimal_to_binary()
     }
 
     if question in commands:
