@@ -6,7 +6,7 @@ description: Introduction to the XOR operation.
 [//]: # (content)
 ## Introduction
 
-XOR is an binary operation that takes two bits as input, and returns one bit as output.
+XOR (pronounced "EX-or") is an binary operation that takes two bits as input, and returns one bit as output.
 It's used all over the place in cryptography.
 
 Here's what its inputs and outputs look like:
@@ -152,3 +152,16 @@ All ones
 Since XOR always returns 0 when the inputs are the same, when we
 XOR a number with itself, all bits are the same, so all the output's
 bits are 0. A sequence of all zeroes is just 0!
+
+For example, take a random number, say $1011$:
+
+```
+1011 ⊕ 1011
+
+1 ⊕ 1 = 0
+0 ⊕ 0 = 0
+1 ⊕ 1 = 0
+1 ⊕ 1 = 0
+
+= 0000
+```
