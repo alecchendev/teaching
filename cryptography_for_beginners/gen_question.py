@@ -15,22 +15,44 @@ class Question:
         self.choices = choices
 
     def __str__(self):
-        choices_str = "\n".join([f"- [ ] {choice.choice}" for choice in self.choices])
-        correct_choice = [choice.choice for choice in self.choices if choice.correct][0]
-        return f"{self.question}\n\n{choices_str}\n\nCorrect: {correct_choice}"
+        choices_str = "\n\n".join([f"[//]: # (choice{' correct' if choice.correct else ''})\n{choice.choice}" for choice in self.choices])
+        return f"[//]: # (question)\n{self.question}\n\n{choices_str}"
 
 
 def random_numbers(center: int, count: int, skewed: bool) -> List[int]:
     skew = random.random() * 2 if skewed else 1
     nums = set()
-    while len(nums) < 3:
-        offset = random.random() - 1
+    while len(nums) < count:
+        offset = random.random() - 0.5
         num = int(center * skew + center * offset)
         if num < 0 or num == center:
             continue
         nums.add(num)
-    assert len(nums) == 3
+    assert len(nums) == count
     return list(nums)
+
+def hex_to_decimal() -> Question:
+    number = random.randint(31, 64)
+    hex_num = hex(number)[2:]
+    question = f"What is ${hex_num}_{{16}}$ in decimal (base 10)?"
+
+    choice_nums = random_numbers(number, 3, True)
+    choices = [Choice(str(choice), False) for choice in choice_nums]
+    choices.append(Choice(str(number), True))
+    random.shuffle(choices)
+
+    return Question(question, choices)
+
+def decimal_to_hex() -> Question:
+    number = random.randint(31, 64)
+    question = f"What is ${number}_{{10}}$ in hex (base 16)?"
+
+    choice_nums = random_numbers(number, 3, True)
+    choices = [Choice(hex(choice)[2:], False) for choice in choice_nums]
+    choices.append(Choice(hex(number)[2:], True))
+    random.shuffle(choices)
+
+    return Question(question, choices)
 
 
 def binary_to_decimal() -> Question:
@@ -65,7 +87,9 @@ def main():
 
     commands = {
         "bin_to_dec": binary_to_decimal(),
-        "dec_to_bin": decimal_to_binary()
+        "dec_to_bin": decimal_to_binary(),
+        "hex_to_dec": hex_to_decimal(),
+        "dec_to_hex": decimal_to_hex(),
     }
 
     if question in commands:
