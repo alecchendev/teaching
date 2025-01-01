@@ -176,12 +176,33 @@ What is $138_{10}$ in hex (base 16)?
 You may have seen colors represented as hex before. For example, the color below
 can be represented as #32a852.
 
-![Color](https://alecchen.dev/teaching/cryptography_for_beginners/images/green.png)
+![Color green](https://alecchen.dev/teaching/cryptography_for_beginners/images/green.png)
+
+On computers, colors are the combination of red blue and green values.
 
 This representation is just the hex values for the red, green, and blue components
 of the color, i.e. the red value is $32_{16}$, the green value is $a8_{16}$, and
-the blue value is $52_{16}$. And so their decimal/base 10 values are 50, 168, and
-82 respectively.
+the blue value is $52_{16}$.
+
+```
+32  a8  52
+rr  gg  bb
+```
+
+And so their decimal/base 10 values are:
+
+$$
+R = 32_{16} = 50_{10} \\
+G = a8_{16} = 168_{10} \\
+B = 52_{16} = 82_{10}
+$$
+
+Say we removed the green value entirely, we'd be left with #320052, which looks like
+this:
+
+![Color purple](https://alecchen.dev/teaching/cryptography_for_beginners/images/purple.png)
+
+This makes sense, since without green, this is just red and blue, which is purple!
 
 [//]: # (question)
 What is the decimal value of blue component of the color #5324bf?
@@ -198,6 +219,22 @@ What is the decimal value of blue component of the color #5324bf?
 [//]: # (choice)
 70
 
+[//]: # (explanation)
+First we split the hex string into its components:
+
+```
+53  24  bf
+rr  gg  bb
+```
+
+Then we take the blue component, $bf_{16}$, and convert it to decimal:
+
+$$
+bf_{16} = ?_{10} \\
+b_{16} = 11_{10} \ \ f_{16} = 15_{10} \\
+11 * 16^1 + 15 * 16^0 = 176 + 15 = 191_{10}
+$$
+
 [//]: # (content)
 ## Binary/bytes and hex
 
@@ -209,18 +246,44 @@ For any 4 binary digits, it directly translates to a single hex digit. For
 example, $1001_2 = 9_{16}$. Notice that 4 bits can represent 0-15,
 just like a single hex digit.
 
+| Base 2 | Base 16 |
+|--------|---------|
+| 0000   | 0       |
+| 0001   | 1       |
+| 0010   | 2       |
+| 0011   | 3       |
+| 0100   | 4       |
+| 0101   | 5       |
+| 0110   | 6       |
+| 0111   | 7       |
+| 1000   | 8       |
+| 1001   | 9       |
+| 1010   | a       |
+| 1011   | b       |
+| 1100   | c       |
+| 1101   | d       |
+| 1110   | e       |
+| 1111   | f       |
+
 And say we have a byte, $11011001_2$, we can just translate it to hex
 4 bits at a time:
 
-```
-1101 = 13 = d
-1001 = 9
-
-11011001 = d9
-```
+$$
+1101_2 = 13_{10} = d_{16} \\
+1001_2 = 9_{10} = 9_{16} \\
+11011001_2 = d9_{16}
+$$
 
 Similar to how 4 bits always translate to a single hex digit, a
 byte (8 bits) always translates to 2 hex digits.
+
+Say we have a byte in hex, $8a_{16}$, we can convert it to binary:
+
+$$
+8_{16} = 8_{10} = 1000_2 \\
+a_{16} = 10_{10} = 1010_2 \\
+8a_{16} = 10001010_2
+$$
 
 [//]: # (question)
 What is $0110011101100011_2$ in hex (base 16)?
