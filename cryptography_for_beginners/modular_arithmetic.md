@@ -107,7 +107,10 @@ $$
 A neat trick with modular arithmetic when you're working with larger
 numbers is that you can perform the modulo operation at each step.
 
-Say we want to calculate $22 * 3 \ (mod \ 9)$.
+When you see $(mod \ m)$ at the right side of an expression or equation, it means
+*all operations and numbers* are modulo $m$.
+
+Say we want to calculate $x$ where $22 * 3 = x \ (mod \ 9)$.
 
 We can calculate the modulo at each step, and even on each number itself:
 
